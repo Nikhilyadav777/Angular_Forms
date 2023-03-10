@@ -1,0 +1,63 @@
+<div style="display: flex; justify-content: center;">
+
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-container">
+    <label for="firstName">First Name:</label><br>
+    <input type="text" id="firstName" formControlName="firstName" pattern="[A-Za-z]+" required
+      (input)="checkFirstNameValidity()" #firstNameInput><br>
+    <div *ngIf="myForm.get('firstName')?.invalid && myForm.get('firstName')?.touched" class="error-message">
+      *First Name Can't be Empty.
+    </div>
+    <div *ngIf="myForm.get('firstName') && showFirstNameAlert" class="alert-message">
+      Invalid characters entered in First Name field.
+    </div>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email">
+      <p *ngIf="myForm.get('email')?.touched && myForm.get('email')?.errors?.['required']" style="color: red">
+        Email is required.
+      </p>
+
+      <div *ngIf="myForm.get('email')?.errors?.['email']" class="error-message">Email must be a valid email
+        address.</div>
+    </div>
+    <div>
+      <!--   <label for="numericField">Numeric Field:</label><br>
+            <input type="text" id="numericField" formControlName="numericField" pattern="[0-9]+" required
+                (invalid)="showAlert('numericField')"><br>
+            <div *ngIf="myForm.get('number')?.errors?.['required']" class="error-message">Number is required.</div>
+            <div *ngIf="myForm.get('numericField')?.invalid && myForm.get('numericField')?.touched"
+                class="error-message">
+                Please enter a valid number.
+            </div> -->
+
+      <label for="Number">Number:</label><br>
+      <input type="number" id="numericField" formControlName="numericField" pattern="[0-9]+" required
+        (input)="checkNumberValidity()" #number><br>
+      <div *ngIf="myForm.get('numericField')?.invalid &&  myForm.get('numericField')?.touched" class="error-message">
+        Numeric Field Can't be Empty
+      </div>
+      <div *ngIf="myForm.get('numericField') && showNumericFieldAlert" class="alert-message">
+        Invalid characters in numeric Field
+      </div>
+    </div>
+    <button type="submit" [disabled]="myForm.invalid" class="submit-button">Submit</button>
+  </form><br><br>
+
+</div>
+
+<div style="display: flex; justify-content: center;">
+
+  form value = {{myForm.value | json}}<!-- this will show value -->
+  <br>
+  form status = {{myForm.status}} <!-- This will show form is valid or invalid -->
+
+</div>
+
+<div *ngIf="formData">
+  <h3>Form data:</h3>
+  <p>Name: {{ formData.firstName }}</p>
+  <p>Email: {{ formData.email }}</p>
+  <p>Email: {{ formData.numericField }}</p>
+  <!-- etc. for all form fields -->
+</div>
